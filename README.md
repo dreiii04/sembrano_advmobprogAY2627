@@ -6,7 +6,8 @@
 A new Flutter project.
 
 ## Getting Started
-
+## Laboratory list discussion
+-**Lab 1 -Theme(Dark/Light mode)**:The setstate is when the data belongs to onky one widget. The provider is when the data belongs to multiple widgets. 
 This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:
