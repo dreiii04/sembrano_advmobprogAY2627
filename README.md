@@ -1,20 +1,11 @@
-# Sembrano, Andrei Stephen C. CCIT
-## INF233
-## CTADVMOBL Advance Mobile Programming
-## Lab Activity Instance
+# Advanced Mobile Programming
 
-A new Flutter project.
+Sembrano, Andrei Stephen C.
 
-## Getting Started
-## Laboratory list discussion
--**Lab 1 -Theme(Dark/Light mode)**:The setstate is when the data belongs to onky one widget. The provider is when the data belongs to multiple widgets. 
-This project is a starting point for a Flutter application.
+INF233 - CTADVMOBL
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Laboratory Discussion-Labact2
+
+ProductService gets product data from the API it sends GET request to the /products endpoint, converts the JSON response using Product.fromJson, and returns a list of Product objects. ProductScreen calls the service and uses FutureBuilder to show loading, errors, or the product list. Each product card displays information like the title, price, and image. Users can also search products or tap a product to view its details and the app uses a mode, view, provider. Models handle data, services communicate with the API, providers manage shared data such as the theme, and screens display the user interface
