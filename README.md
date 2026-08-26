@@ -24,6 +24,10 @@ A new Flutter project.
 
 The app uses a model-view-provider structure. Models handle data, services communicate with the API, providers manage shared data such as the theme, and screens display the user interface.
 
+### Lab 3 - Cart API
+
+The cart model, service, and screen work together to get and display cart data from the API. The `Cart` and `CartProduct` models handle the cart data, while `CartService` sends requests to the API. `CartScreen` uses `FutureBuilder` to show the cart, loading screen, error message, or empty-cart message.The app follows a model-service-screen pattern, while Provider is used for shared data like the theme. This setup makes the code more organized and easier to understand and maintain. To get the cart, `CartService.getCartByUser` sends a GET request to `/carts/user/5`. The returned JSON data is converted into a `Cart` object and displayed on `CartScreen`. If there is no cart, an empty-cart message is shown, and if an error happens, the user can retry the request.
+
 This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:

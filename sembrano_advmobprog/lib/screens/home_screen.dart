@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../constants.dart';
 import '../widgets/custom_text.dart';
+import 'cart_screen.dart';
 import 'product_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+  int _selectedTab = 0;
   final PageController _pageController = PageController();
 
   @override
@@ -63,10 +65,20 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: Icons.person_outline,
               label: widget.username.isEmpty ? 'Profile' : widget.username,
             ),
+            const CartScreen(),
           ],
         ),
+        // Enhancement 2: Hide the cart button while the cart is open.
+        floatingActionButton: _selectedIndex == 3
+            ? null
+            : FloatingActionButton(
+                onPressed: () => _openPage(3),
+                tooltip: 'Cart',
+                child: const Icon(Icons.shopping_cart),
+              ),
+        // Enhancement 2: Use a floating cart button above the bottom menu.
         bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex,
+          currentIndex: _selectedTab,
           showSelectedLabels: false,
           showUnselectedLabels: false,
           onTap: _openPage,
@@ -84,12 +96,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return switch (_selectedIndex) {
       1 => 'Chat',
       2 => 'Profile',
+      3 => 'Cart',
       _ => AppConstants.appName,
     };
   }
 
   void _openPage(int index) {
-    setState(() => _selectedIndex = index);
+    setState(() {
+      _selectedIndex = index;
+      if (index < 3) _selectedTab = index;
+    });
     _pageController.jumpToPage(index);
   }
 }

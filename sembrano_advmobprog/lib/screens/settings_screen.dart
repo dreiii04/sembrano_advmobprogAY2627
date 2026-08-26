@@ -12,7 +12,7 @@ class SettingsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Settings')),
-      // Enhancement 3: Moves the theme switch to the settings page.
+      // This switch changes the app theme.
       body: SwitchListTile(
         title: const Text('Dark mode'),
         subtitle: const Text('Toggle the application theme.'),

@@ -31,7 +31,7 @@ class _ProductScreenState extends State<ProductScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // it adds a search bar above the product list
+            // This search bar filters the products.
             TextField(
               key: const Key('productSearchField'),
               onChanged: (value) => setState(() => _query = value.trim()),
@@ -97,7 +97,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   itemBuilder: (context, index) {
                     final product = products[index];
 
-                    //  opens the details screen when a product is tapped
+                    // Tap a product to see its details.
                     return Card(
                       elevation: 2,
                       clipBehavior: Clip.antiAlias,

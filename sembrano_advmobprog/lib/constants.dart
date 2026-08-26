@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-var host = dotenv.env['HOST'];
+final host = dotenv.env['HOST'] ?? 'https://dummyjson.com';
 
 class AppConstants {
   const AppConstants._();
@@ -9,6 +9,7 @@ class AppConstants {
   static const appName = 'NU Marketplace';
   static const homeRoute = '/home';
   static const settingsRoute = '/settings';
+  static const cartUserId = 5;
 
   static ThemeData lightTheme = ThemeData(
     colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
