@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../models/product.dart';
 import '../services/product_service.dart';
 import '../widgets/custom_text.dart';
-import 'product_detail_screen.dart';
+import 'detail_screen.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({super.key});

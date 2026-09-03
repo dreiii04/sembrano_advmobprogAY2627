@@ -5,9 +5,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import 'constants.dart';
+import 'models/user.dart';
 import 'providers/theme_provider.dart';
 import 'screens/home_screen.dart';
 import 'screens/settings_screen.dart';
+import 'screens/signin_screen.dart';
+import 'screens/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,9 +39,21 @@ class SembranoAdvMobProg extends StatelessWidget {
             theme: AppConstants.lightTheme,
             darkTheme: AppConstants.darkTheme,
             themeMode: themeProvider.isDark ? ThemeMode.dark : ThemeMode.light,
-            initialRoute: AppConstants.homeRoute,
+            initialRoute: AppConstants.splashRoute,
             routes: {
-              AppConstants.homeRoute: (_) => const HomeScreen(),
+              AppConstants.splashRoute: (_) => const SplashScreen(),
+              AppConstants.signinRoute: (_) => const SignInScreen(),
+              AppConstants.homeRoute: (context) {
+                final args = ModalRoute.of(context)?.settings.arguments;
+                final username = args is User
+                    ? args.username
+                    : args is Map<String, dynamic>
+                        ? (args['username'] as String? ?? '')
+                        : args is String
+                            ? args
+                            : '';
+                return HomeScreen(username: username);
+              },
               AppConstants.settingsRoute: (_) => const SettingsScreen(),
             },
           );

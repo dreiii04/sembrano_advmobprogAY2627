@@ -5,8 +5,10 @@ import '../constants.dart';
 import '../models/cart.dart';
 import '../models/product.dart';
 import '../services/cart_service.dart';
+import '../services/user_service.dart';
 import '../widgets/custom_text.dart';
 
+// Product detail screen displaying item details and add-to-cart option
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({required Product product, Key? key})
     : this._(product: product, key: key);
@@ -34,13 +36,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   String get _thumbnail =>
       widget.product?.thumbnail ?? widget.cartProduct!.thumbnail;
 
+  // Process to add the current product to the user's cart
   Future<void> _addToCart() async {
     setState(() => _isAdding = true);
 
     try {
-      // Enhancement 3: Pass the selected product values to the API.
+      // Enhancement 3: Use saved user ID for cart addition
+      final userData = await UserService().getUserData();
+      final userId = userData['id'] as int? ?? AppConstants.cartUserId;
+
       await const CartService().addToCart(
-        userId: AppConstants.cartUserId,
+        userId: userId > 0 ? userId : AppConstants.cartUserId,
         productId: _id,
       );
 
@@ -148,3 +154,4 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
   }
 }
+
