@@ -10,12 +10,18 @@ import 'providers/theme_provider.dart';
 import 'screens/home_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/signin_screen.dart';
+import 'screens/signup_screen.dart';
 import 'screens/splash_screen.dart';
+import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await dotenv.load(fileName: 'assets/.env');
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const SembranoAdvMobProg());
 }
 
@@ -43,6 +49,7 @@ class SembranoAdvMobProg extends StatelessWidget {
             routes: {
               AppConstants.splashRoute: (_) => const SplashScreen(),
               AppConstants.signinRoute: (_) => const SignInScreen(),
+              AppConstants.signupRoute: (_) => const SignupScreen(),
               AppConstants.homeRoute: (context) {
                 final args = ModalRoute.of(context)?.settings.arguments;
                 final username = args is User

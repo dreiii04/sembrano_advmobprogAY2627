@@ -5,14 +5,11 @@ import '../constants.dart';
 import '../providers/theme_provider.dart';
 import '../services/user_service.dart';
 
-// Enhancement 2: Settings Screen for theme preferences and account logout
+//  Settings Screen for theme preferences and account logout
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
-  // Enhancement 2: Process to sign out the user and clear session data
-  // 1. Prompts confirmation dialog to prevent accidental sign out
-  // 2. Calls UserService().logout() to clear SharedPreferences
-  // 3. Navigates to '/signin' replacing and clearing all previous routes
+  //  Added a Logout option in settings that clears the user session and takes the user back to the login screen
   Future<void> _signOut(BuildContext context) async {
     final confirmed = await showDialog<bool>(
       context: context,
@@ -79,7 +76,7 @@ class SettingsScreen extends StatelessWidget {
             ),
             child: Column(
               children: [
-                // Enhancement 2: Dark mode theme switch
+                //  Dark mode theme switch
                 SwitchListTile(
                   title: const Text('Dark mode'),
                   subtitle: const Text('Toggle the application theme.'),
@@ -113,7 +110,7 @@ class SettingsScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: ListTile(
-              // Enhancement 2: Sign Out button
+              //  Sign Out button
               leading: const Icon(Icons.logout, color: Colors.red),
               title: const Text(
                 'Sign Out',

@@ -32,6 +32,10 @@ The cart model, service, and screen work together to get and display cart data f
 
 In this activity, I used the Model-Service-Screen pattern where my user service calls the API, saves the login data into SharedPreferences, and converts it into a User model so the profile screen can display everything cleanly. From there, the cart screen grabs that saved user ID to dynamically fetch and display the specific cart items belonging to the logged-in user instead of relying on a hardcoded number. Connecting them this way really helped me see how data flows across the app, making the whole login and shopping experience feel connected and seamless.
 
+### Lab 5 - Firebase Authentication
+
+For the authentication workflow, users can register with their personal details on the sign-up screen using Firebase Auth, or choose between Firebase and DummyJSON on the sign-in screen to authenticate and save their session. The main idea behind `UserService` is to centralize all authentication logic, session persistence, and user profile updates into one place so our UI screens stay clean and separated from backend details. Integrating Firebase brings real-world authentication to our Flutter app with automatic token refresh, secure password management, and actual account deletion instead of just relying on hardcoded mock API data.
+
 This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:

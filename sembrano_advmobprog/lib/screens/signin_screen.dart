@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -18,6 +19,8 @@ class _SignInScreenState extends State<SignInScreen> {
   final _passwordController = TextEditingController();
 
   bool _isLoading = false;
+  // Enhancement 2: Toggle between DummyJSON login and Firebase Auth login
+  bool _isFirebaseLogin = false;
 
   @override
   void dispose() {
@@ -26,7 +29,7 @@ class _SignInScreenState extends State<SignInScreen> {
     super.dispose();
   }
 
-  // Authentication logic using user_service
+  // Enhancement 2: Log in using either DummyJSON API or Firebase Auth based on the toggle
   void _login() async {
     UserService userService = UserService();
     setState(() {
@@ -34,13 +37,20 @@ class _SignInScreenState extends State<SignInScreen> {
     });
     if (_formKey.currentState!.validate()) {
       try {
-        final response = await userService.loginUser(
-          _usernameController.text,
-          _passwordController.text,
-        );
-
-        // Save user data to SharedPreferences
-        await userService.saveUserData(response);
+        if (_isFirebaseLogin) {
+          // Enhancement 2: Authenticating with Firebase Auth using email and password
+          await userService.signIn(
+            email: _usernameController.text.trim(),
+            password: _passwordController.text,
+          );
+        } else {
+          // Enhancement 2: Authenticating with DummyJSON API
+          final response = await userService.loginUser(
+            _usernameController.text.trim(),
+            _passwordController.text,
+          );
+          await userService.saveUserData(response);
+        }
 
         if (!mounted) return;
         setState(() {
@@ -49,6 +59,14 @@ class _SignInScreenState extends State<SignInScreen> {
 
         // Navigate to splash screen after login so splash screen is seen
         Navigator.pushReplacementNamed(context, AppConstants.splashRoute);
+      } on FirebaseAuthException catch (e) {
+        if (!mounted) return;
+        setState(() {
+          _isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.message ?? 'Firebase login failed')),
+        );
       } catch (e) {
         if (!mounted) return;
         setState(() {
@@ -67,7 +85,6 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //  UI for sign_screen matching sample output
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -79,7 +96,6 @@ class _SignInScreenState extends State<SignInScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -97,15 +113,50 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 48.h),
+                  SizedBox(height: 24.h),
 
-                  
+                  // Enhancement 2: Segmented chips so student can test DummyJSON or Firebase Auth
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ChoiceChip(
+                        label: const Text('DummyJSON'),
+                        selected: !_isFirebaseLogin,
+                        selectedColor: const Color(0xFF2B3A8F),
+                        labelStyle: TextStyle(
+                          color: !_isFirebaseLogin ? Colors.white : Colors.black87,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        onSelected: (val) {
+                          if (val) setState(() => _isFirebaseLogin = false);
+                        },
+                      ),
+                      SizedBox(width: 10.w),
+                      ChoiceChip(
+                        label: const Text('Firebase Auth'),
+                        selected: _isFirebaseLogin,
+                        selectedColor: const Color(0xFF2B3A8F),
+                        labelStyle: TextStyle(
+                          color: _isFirebaseLogin ? Colors.white : Colors.black87,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        onSelected: (val) {
+                          if (val) setState(() => _isFirebaseLogin = true);
+                        },
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 24.h),
+
                   TextFormField(
                     key: const Key('usernameField'),
                     controller: _usernameController,
+                    keyboardType: _isFirebaseLogin ? TextInputType.emailAddress : TextInputType.text,
                     decoration: InputDecoration(
-                      labelText: 'Username',
-                      hintText: 'Username',
+                      labelText: _isFirebaseLogin ? 'Email Address' : 'Username',
+                      hintText: _isFirebaseLogin ? 'Enter email' : 'Username',
                       contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.r),
@@ -113,7 +164,10 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'Please enter your username';
+                        return _isFirebaseLogin ? 'Please enter your email' : 'Please enter your username';
+                      }
+                      if (_isFirebaseLogin && (!value.contains('@') || !value.contains('.'))) {
+                        return 'Please enter a valid email';
                       }
                       return null;
                     },
@@ -169,6 +223,19 @@ class _SignInScreenState extends State<SignInScreen> {
                               fontWeight: FontWeight.w600,
                             ),
                     ),
+                  ),
+                  SizedBox(height: 16.h),
+
+                  // Enhancement 2: Link to open the signup screen
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Don't have an account? "),
+                      TextButton(
+                        onPressed: () => Navigator.pushNamed(context, AppConstants.signupRoute),
+                        child: const Text('Sign Up', style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ],
                   ),
                 ],
               ),

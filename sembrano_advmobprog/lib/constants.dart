@@ -9,6 +9,7 @@ class AppConstants {
   static const appName = 'NU Marketplace';
   static const splashRoute = '/';
   static const signinRoute = '/signin';
+  static const signupRoute = '/signup';
   static const homeRoute = '/home';
   static const settingsRoute = '/settings';
   static const cartUserId = 5;
