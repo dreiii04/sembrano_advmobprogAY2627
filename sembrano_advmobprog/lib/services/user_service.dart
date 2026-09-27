@@ -83,6 +83,7 @@ class UserService {
       'refreshToken': prefs.getString('refreshToken') ?? '',
       'token': prefs.getString('token') ?? prefs.getString('accessToken') ?? '',
       'loginType': loginType,
+      'uid': prefs.getString('uid') ?? (firebaseUser?.uid ?? ''),
       'contactNo': prefs.getString('contactNo') ?? '',
       'age': prefs.getInt('age') ?? 0,
     };

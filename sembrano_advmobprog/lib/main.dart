@@ -27,7 +27,7 @@ Future<void> main() async {
 
 class SembranoAdvMobProg extends StatelessWidget {
   const SembranoAdvMobProg({super.key});
-
+  
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(

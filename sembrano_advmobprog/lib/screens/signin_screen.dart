@@ -57,8 +57,12 @@ class _SignInScreenState extends State<SignInScreen> {
           _isLoading = false;
         });
 
-        // Navigate to splash screen after login so splash screen is seen
-        Navigator.pushReplacementNamed(context, AppConstants.splashRoute);
+        // Navigate directly to home screen on login
+        Navigator.pushReplacementNamed(
+          context,
+          AppConstants.homeRoute,
+          arguments: _usernameController.text.trim(),
+        );
       } on FirebaseAuthException catch (e) {
         if (!mounted) return;
         setState(() {

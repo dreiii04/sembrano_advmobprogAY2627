@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -70,6 +71,20 @@ class _SignupScreenState extends State<SignupScreen> {
       await prefs.setString('contactNo', _contactNoController.text.trim());
       await prefs.setInt('age', int.tryParse(_ageController.text.trim()) ?? 0);
 
+      // Save user to Firestore Users collection so ChatService can list users
+      final uid = userService.currentUser?.uid;
+      if (uid != null) {
+        await FirebaseFirestore.instance.collection('Users').doc(uid).set({
+          'uid': uid,
+          'email': _emailController.text.trim(),
+          'username': _usernameController.text.trim(),
+          'firstName': _fNameController.text.trim(),
+          'lastName': _lNameController.text.trim(),
+          'contactNo': _contactNoController.text.trim(),
+          'age': int.tryParse(_ageController.text.trim()) ?? 0,
+        }, SetOptions(merge: true));
+      }
+
       if (!mounted) return;
       setState(() => _isLoading = false);
 
@@ -77,8 +92,12 @@ class _SignupScreenState extends State<SignupScreen> {
         const SnackBar(content: Text('Account created successfully!')),
       );
 
-      // Navigate to splash screen to verify session and enter the app
-      Navigator.pushReplacementNamed(context, AppConstants.splashRoute);
+      // Navigate directly to home screen
+      Navigator.pushReplacementNamed(
+        context,
+        AppConstants.homeRoute,
+        arguments: _usernameController.text.trim(),
+      );
     } on FirebaseAuthException catch (e) {
       if (!mounted) return;
       setState(() => _isLoading = false);

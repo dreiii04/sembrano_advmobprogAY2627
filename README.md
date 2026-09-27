@@ -36,6 +36,10 @@ In this activity, I used the Model-Service-Screen pattern where my user service 
 
 For the authentication workflow, users can register with their personal details on the sign-up screen using Firebase Auth, or choose between Firebase and DummyJSON on the sign-in screen to authenticate and save their session. The main idea behind `UserService` is to centralize all authentication logic, session persistence, and user profile updates into one place so our UI screens stay clean and separated from backend details. Integrating Firebase brings real-world authentication to our Flutter app with automatic token refresh, secure password management, and actual account deletion instead of just relying on hardcoded mock API data.
 
+### Lab 6 - Cloud Firestore Chat
+
+In this activity, the Cloud Firestore database uses a `Users` collection to store user profiles with fields like `uid`, `email`, and `username`, while chat conversations are organized under a `chat_rooms` collection using a sorted composite ID (`uid1_uid2`) that contains a `messages` subcollection storing `senderId`, `receiverId`, `message`, and `timestamp`. If I initiate a chat with myself, the room ID becomes `myUid_myUid` where the sender and receiver are identical, causing all messages to appear on my screen as sent by me with double checkmarks like a personal notes chat. Because chatting with yourself might confuse users or clutter the list, I implemented Enhancement 1 to filter out my own account from the chat screen so I only see and message other registered users.
+
 This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:

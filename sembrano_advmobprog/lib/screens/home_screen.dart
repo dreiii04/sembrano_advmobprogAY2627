@@ -5,6 +5,7 @@ import '../constants.dart';
 import '../services/user_service.dart';
 import '../widgets/custom_text.dart';
 import 'cart_screen.dart';
+import 'chat_screen.dart';
 import 'product_screen.dart';
 import 'profile_screen.dart';
 
@@ -90,7 +91,22 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         // Floating action button matching sample output
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => Scaffold(
+                  appBar: AppBar(
+                    title: const Text('Messages'),
+                    backgroundColor: Colors.white,
+                    foregroundColor: const Color(0xFF2B3A8F),
+                    elevation: 0,
+                  ),
+                  body: const ChatScreen(),
+                ),
+              ),
+            );
+          },
           backgroundColor: const Color(0xFFFBB03B),
           foregroundColor: Colors.black,
           shape: const CircleBorder(),
